@@ -2,6 +2,18 @@
 
 A DnD companion for you and your friends to keep track of your stats, saves, losses, and treasures together.
 
+## Get Going
+
+### Prisma
+
+Initialize the db
+
+`npx prisma db push`
+
+### Run the app
+
+`yarn dev`
+
 ## T3 Stack
 
 We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
