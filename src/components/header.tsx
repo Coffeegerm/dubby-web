@@ -1,5 +1,5 @@
-import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { signIn, signOut } from "next-auth/react";
 
 export const Header = () => {

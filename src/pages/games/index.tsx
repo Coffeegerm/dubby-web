@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { api } from "~/utils/api";
+// import { api } from "~/utils/api";
 
 export default function Games() {
-  const { data } = api.games.getMyGames.useQuery();
+  // const { data } = api.games.getMyGames.useQuery();
   return (
     <div className="flex px-16">
       <div className="flex flex-1 flex-row items-center justify-between">

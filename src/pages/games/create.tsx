@@ -1,14 +1,11 @@
-import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { api } from "~/utils/api";
+import { useForm } from "react-hook-form";
 
 export default function CreateGame() {
   const { register, handleSubmit, formState } = useForm<{ name: string }>({
     mode: "onChange",
   });
-
-  const { mutate, isError, isLoading } = api.games.create.useMutation();
 
   return (
     <div className="p-8">
@@ -17,9 +14,6 @@ export default function CreateGame() {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit((data) => {
           console.log({ data });
-          mutate({
-            name: data.name,
-          });
         })}
         className="flex flex-col gap-2"
       >
@@ -32,7 +26,7 @@ export default function CreateGame() {
             placeholder="Journey to the Underworld"
           />
         </div>
-        <Button type="submit" loading={isLoading} disabled={!formState.isValid}>
+        <Button type="submit" loading={false} disabled={!formState.isValid}>
           Create!
         </Button>
       </form>
