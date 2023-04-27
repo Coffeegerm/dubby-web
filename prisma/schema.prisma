@@ -14,10 +14,27 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
+model Game {
+    id              String       @id @default(cuid())
+    createdAt       DateTime     @default(now())
+    updatedAt       DateTime     @updatedAt
+    dungeonMaster   User         @relation(fields: [dungeonMasterId], references: [id])
+    dungeonMasterId String
+    campaignName    String
+    partyMembers    UsersGames[]
+}
+
+// many to many table connecting users and games
+model UsersGames {
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    game      Game     @relation(fields: [gameId], references: [id])
+    gameId    String
+    status    String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@id([userId, gameId])
 }
 
 // Necessary for Next auth
@@ -48,13 +65,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id                 String       @id @default(cuid())
+    name               String?
+    email              String?      @unique
+    emailVerified      DateTime?
+    image              String?
+    accounts           Account[]
+    sessions           Session[]
+    dungeonMasterGames Game[]
+    games              UsersGames[]
 }
 
 model VerificationToken {
