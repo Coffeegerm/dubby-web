@@ -4,7 +4,7 @@ import { GameCard } from "~/components/gameCard";
 import { api } from "~/utils/api";
 
 export default function Games() {
-  const { data, isLoading } = api.games.getMyGames.useQuery();
+  const { data, isLoading } = api.campaigns.getMyGames.useQuery();
 
   return (
     <div className="flex flex-col gap-4 px-16">
@@ -16,10 +16,6 @@ export default function Games() {
         >
           Create New Game
         </Link>
-      </div>
-      <div>
-        {!isLoading &&
-          data?.map((game) => <GameCard key={game.id} game={game} />)}
       </div>
     </div>
   );

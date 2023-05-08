@@ -16,11 +16,10 @@ export default function CreateGame() {
     mode: "onChange",
   });
 
-  const { mutate, isLoading, isError, error } = api.games.create.useMutation({
-    onSuccess: async (data) => {
-      data.game.id && (await router.push(`/games/${data.game.id}`));
-    },
-  });
+  const { mutate, isLoading, isError, error } =
+    api.campaigns.create.useMutation({
+      onSuccess: async (data) => {},
+    });
 
   return (
     <div className="p-8">
