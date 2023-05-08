@@ -1,11 +1,13 @@
 import Link from "next/link";
 
-// import { api } from "~/utils/api";
+import { GameCard } from "~/components/gameCard";
+import { api } from "~/utils/api";
 
 export default function Games() {
-  // const { data } = api.games.getMyGames.useQuery();
+  const { data, isLoading } = api.games.getMyGames.useQuery();
+
   return (
-    <div className="flex px-16">
+    <div className="flex flex-col gap-4 px-16">
       <div className="flex flex-1 flex-row items-center justify-between">
         <h1 className="text-3xl">Your Games</h1>
         <Link
@@ -14,6 +16,10 @@ export default function Games() {
         >
           Create New Game
         </Link>
+      </div>
+      <div>
+        {!isLoading &&
+          data?.map((game) => <GameCard key={game.id} game={game} />)}
       </div>
     </div>
   );

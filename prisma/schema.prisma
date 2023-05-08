@@ -20,8 +20,10 @@ model Game {
     updatedAt       DateTime     @updatedAt
     dungeonMaster   User         @relation(fields: [dungeonMasterId], references: [id])
     dungeonMasterId String
-    campaignName    String
     partyMembers    UsersGames[]
+
+    campaignName String
+    description  String?
 }
 
 // many to many table connecting users and games
