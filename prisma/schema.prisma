@@ -14,29 +14,85 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Game {
-    id              String       @id @default(cuid())
-    createdAt       DateTime     @default(now())
-    updatedAt       DateTime     @updatedAt
-    dungeonMaster   User         @relation(fields: [dungeonMasterId], references: [id])
-    dungeonMasterId String
-    partyMembers    UsersGames[]
-
-    campaignName String
-    description  String?
+// Define the Character model
+model Character {
+    id        Int         @id @default(autoincrement())
+    name      String
+    race      String
+    class     String
+    level     Int
+    abilities Ability[]
+    inventory Inventory[]
+    ownerId   String
+    owner     User        @relation(fields: [ownerId], references: [id])
 }
 
-// many to many table connecting users and games
-model UsersGames {
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-    game      Game     @relation(fields: [gameId], references: [id])
-    gameId    String
-    status    String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// Define the Ability model
+model Ability {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String
+    characterId Int
+    character   Character @relation(fields: [characterId], references: [id])
+}
 
-    @@id([userId, gameId])
+// Define the Inventory model
+model Inventory {
+    id          Int       @id @default(autoincrement())
+    name        String
+    description String
+    weight      Float
+    value       Int
+    character   Character @relation(fields: [characterId], references: [id])
+    characterId Int
+}
+
+// Define the Campaign model
+model Campaign {
+    id              Int    @id @default(autoincrement())
+    dungeonMasterId String
+    dungeonMaster   User   @relation("dungeonMaster", fields: [dungeonMasterId], references: [id])
+
+    name        String
+    description String
+
+    quests     Quest[]
+    encounters Encounter[]
+    players    User[]      @relation("players")
+}
+
+// Define the Quest model
+model Quest {
+    id          Int         @id @default(autoincrement())
+    name        String
+    description String
+    campaign    Campaign    @relation(fields: [campaignId], references: [id])
+    campaignId  Int
+    encounters  Encounter[]
+}
+
+// Define the Encounter model
+model Encounter {
+    id         Int       @id @default(autoincrement())
+    name       String
+    location   String
+    difficulty Int
+    monsters   Monster[]
+    campaign   Campaign  @relation(fields: [campaignId], references: [id])
+    campaignId Int
+    questId    Int?
+    quest      Quest?    @relation(fields: [questId], references: [id])
+}
+
+// Define the Monster model
+model Monster {
+    id          Int       @id @default(autoincrement())
+    name        String
+    type        String
+    health      Int
+    initiative  Int
+    encounter   Encounter @relation(fields: [encounterId], references: [id])
+    encounterId Int
 }
 
 // Necessary for Next auth
@@ -67,15 +123,17 @@ model Session {
 }
 
 model User {
-    id                 String       @id @default(cuid())
-    name               String?
-    email              String?      @unique
-    emailVerified      DateTime?
-    image              String?
-    accounts           Account[]
-    sessions           Session[]
-    dungeonMasterGames Game[]
-    games              UsersGames[]
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+
+    characters  Character[]
+    myCampaigns Campaign[]  @relation("dungeonMaster")
+    campaigns   Campaign[]  @relation("players")
 }
 
 model VerificationToken {
