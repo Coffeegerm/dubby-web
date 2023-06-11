@@ -21,6 +21,7 @@ const Home: NextPage = () => {
               signIn().catch(console.error);
             }
           }}
+          className="p-button-raised p-button-rounded white-space-nowrap px-5 py-3 font-bold"
           label={session?.user ? "Go to Dashboard" : "Sign In"}
         />
       </div>

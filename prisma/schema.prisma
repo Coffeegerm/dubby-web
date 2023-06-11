@@ -86,13 +86,13 @@ model Encounter {
 
 // Define the Monster model
 model Monster {
-    id          Int       @id @default(autoincrement())
+    id          Int        @id @default(autoincrement())
     name        String
     type        String
     health      Int
     initiative  Int
-    encounter   Encounter @relation(fields: [encounterId], references: [id])
-    encounterId Int
+    encounter   Encounter? @relation(fields: [encounterId], references: [id])
+    encounterId Int?
 }
 
 // Necessary for Next auth

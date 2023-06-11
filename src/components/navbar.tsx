@@ -21,7 +21,7 @@ export const Navbar = () => {
 
         <Button
           label="Logout"
-          className="self-end"
+          className="p-button-rounded p-button-raised self-end"
           onClick={() => {
             signOut({
               callbackUrl: `${window.location.origin}`,
