@@ -13,8 +13,8 @@ export const Navbar = () => {
             </span>
           </Link>
           <div className="flex flex-col gap-3">
-            <Link href="/characters">
-              <p className="text-white hover:text-gray-400">Characters</p>
+            <Link href="/campaign">
+              <p className="text-white hover:text-gray-400">Campaigns</p>
             </Link>
           </div>
         </div>
